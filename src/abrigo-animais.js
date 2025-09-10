@@ -115,7 +115,7 @@ class AbrigoAnimais {
         adotadosPessoa2++;
         resultadoStr = `${animal.nome} - pessoa 2`;
       } else {
-        // inclui casos: ambos qualificados (regra: ninguém leva), nenhum qualificado, ou ambos desqualificados por limite
+        // inclui casos: ambos qualificados, nenhum qualificado, ou ambos desqualificados por limite
         resultadoStr = `${animal.nome} - abrigo`;
       }
 
