@@ -1,7 +1,7 @@
 class AbrigoAnimais {
 
   encontraPessoas(brinquedosPessoa1, brinquedosPessoa2, ordemAnimais) {
-    // Dados dos animais (canonical, case-insensitive lookup keys)
+    // Dados dos animais
     const animais = {
       'rex':  { nome: 'Rex',  especie: 'cao',   brinquedos: ['RATO','BOLA'] },
       'mimi': { nome: 'Mimi', especie: 'gato',  brinquedos: ['BOLA','LASER'] },
@@ -16,7 +16,7 @@ class AbrigoAnimais {
     const brinquedosValidos = new Set();
     Object.values(animais).forEach(a => a.brinquedos.forEach(b => brinquedosValidos.add(b)));
 
-    //  Helpers: normalização e validação
+    // Normalização e validação
     const parseList = (s) => {
       if (typeof s !== 'string') return [];
       return s.split(',')
@@ -33,20 +33,20 @@ class AbrigoAnimais {
     const pessoa1Toys = toUpperArray(pessoa1ListRaw);
     const pessoa2Toys = toUpperArray(pessoa2ListRaw);
 
-    // Validação: brinquedos duplicados dentro da mesma lista?
+    // Brinquedos duplicados dentro da mesma lista?
     const hasDuplicates = (arr) => new Set(arr).size !== arr.length;
     if (hasDuplicates(pessoa1Toys) || hasDuplicates(pessoa2Toys)) {
       return { erro: 'Brinquedo inválido' };
     }
 
-    // Validação: brinquedos válidos
+    // Brinquedos válidos
     for (const b of pessoa1Toys.concat(pessoa2Toys)) {
       if (!brinquedosValidos.has(b)) {
         return { erro: 'Brinquedo inválido' };
       }
     }
 
-    // Validação: animais válidos e sem duplicatas
+    // Animais válidos e sem duplicatas
     const animaisLower = animaisOrderRaw.map(a => a.trim()).filter(x => x !== '');
     const lowerKeys = animaisLower.map(a => a.toLowerCase());
     if (new Set(lowerKeys).size !== lowerKeys.length) {
@@ -58,7 +58,7 @@ class AbrigoAnimais {
       }
     }
 
-    // Função que verifica subsequência (ordem relativa)
+    // Função que verifica subsequência
     const isSubsequence = (pattern, arr) => {
       if (!pattern || pattern.length === 0) return true;
       let idx = 0;
@@ -71,7 +71,7 @@ class AbrigoAnimais {
       return false;
     };
 
-    // Para Loco: queremos apenas verificar se a pessoa tem todos os brinquedos (em qualquer ordem)
+    // Verificar se a pessoa tem todos os brinquedos (em qualquer ordem)
     const setFrom = (arr) => new Set(arr);
 
     // Processamento na ordem informada
@@ -79,13 +79,13 @@ class AbrigoAnimais {
     let adotadosPessoa2 = 0;
     const resultados = []; // { nome, resultadoString }
 
-    // vamos processar na ordem fornecida (a ordem influencia o limite de 3 por pessoa e a regra do Loco)
+    // Processar na ordem fornecida
     for (const nomeRaw of animaisLower) {
       const key = nomeRaw.toLowerCase();
       const animal = animais[key];
       const fav = animal.brinquedos; // array uppercase
 
-      // verificar qual pessoa qualifica (respeitando limite de 3)
+      // Verificar qual pessoa qualifica (respeitando limite de 3)
       let qualifica1 = false;
       let qualifica2 = false;
 
